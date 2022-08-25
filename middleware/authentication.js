@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const { ExtractJwt } = require('passport-jwt');
 const { Strategy } = require('passport-local')
 const User = require('../models/user');
+const express = require('express')
+const app = express()
 
 const secret = process.env.JWT_SECRET
 const opts = {
@@ -14,13 +16,14 @@ const opts = {
 const strat = new Strategy(opts, function (jwt_payload, done){
     User.findById(jwt_payload.id)
     .then((user) => 
-        done(null, user))
+    done(null, user))
     .catch((err) => 
-        done(err))
+    done(err))
 })
 
 passport.use(strat);
-passport.initialize();
+app.use(passport.initialize());
+app.use(passport.session())
 
 const requireToken = passport.authenticate('jwt', { session: false })
 
