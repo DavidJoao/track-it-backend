@@ -11,6 +11,10 @@ app.use(express.urlencoded( { extended: true } ));
 
 //APP ROUTES
 
+app.get('/', (req, res) => {
+    res.redirect('/users')
+})
+
 const usersController = require('./controllers/usersController');
 app.use('/users', usersController);
 

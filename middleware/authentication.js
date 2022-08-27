@@ -1,8 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { ExtractJwt } = require('passport-jwt');
-const { Strategy } = require('passport-local')
+const { ExtractJwt, Strategy } = require('passport-jwt')
 const User = require('../models/user');
 const express = require('express')
 const app = express()
@@ -21,8 +20,8 @@ const strat = new Strategy(opts, function (jwt_payload, done){
     done(err))
 })
 
-passport.use(strat);
-app.use(passport.initialize());
+passport.use(strat)
+passport.initialize()
 app.use(passport.session())
 
 const requireToken = passport.authenticate('jwt', { session: false })
